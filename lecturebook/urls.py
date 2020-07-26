@@ -4,4 +4,5 @@ from lecturebook import views
 urlpatterns = [
 	path("students/", views.StudentViewSet.as_view()),
 	path("lecturebooks/", views.LectureBookViewSet.as_view()),
+	path("signup/", views.Signup.as_view()),
 ]

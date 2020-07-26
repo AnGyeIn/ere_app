@@ -39,7 +39,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
 	USERNAME_FIELD = 'sNum'
 	REQUIRED_FIELDS = ['name', 'pNum']
 
-	object = StudentManager()
+	objects = StudentManager()
 
 	def __str__(self):
 		return self.name
@@ -48,7 +48,7 @@ class LectureBook(models.Model):
 	title = models.TextField()
 	author = models.TextField()
 	lecture = models.TextField()
-	owner = models.ForeignKey('Student', on_delete=models.CASCADE, related_name='owningbooks')
+	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='owningbooks')
 	option = models.TextField()
 	isAvailable = models.BooleanField()
 
