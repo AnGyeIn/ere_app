@@ -1,8 +1,7 @@
-from django.urls import path, include
-from .views import student_list, lecturebook_list, login
+from django.urls import path
+from lecturebook import views
 
 urlpatterns = [
-	path("students/", student_list),
-	path("lecturebooks/", lecturebook_list),
-	path("login/", login),
+	path("students/", views.StudentViewSet.as_view()),
+	path("lecturebooks/", views.LectureBookViewSet.as_view()),
 ]
