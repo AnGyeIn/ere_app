@@ -1,10 +1,12 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-class Student(models.Model):
+class Student(User):
 	name = models.TextField()
-	sNum = models.TextField()
+	username = models.TextField()
 	pNum = models.TextField()
+	password = models.TextField()
 
 class LectureBook(models.Model):
 	title = models.TextField()
