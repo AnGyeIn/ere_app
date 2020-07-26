@@ -29,7 +29,7 @@ class Signup(APIView):
 
     def post(self, request, format=None):
         if Student.objects.filter(sNum=request.data['sNum']).count() > 0:
-            return Response('sNum Error')
+            return Response(-1)
         else:
             sNum = request.data['sNum']
             name = request.data['name']
