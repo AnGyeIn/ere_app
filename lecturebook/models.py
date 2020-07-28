@@ -45,7 +45,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
 		return self.name
 
 class LectureBook(models.Model):
-	id = models.IntegerField(unique=True)
+	id = models.IntegerField(primary_key=True)
 	title = models.TextField()
 	author = models.TextField()
 	lecture = models.TextField()
