@@ -49,9 +49,18 @@ class LectureBook(models.Model):
 	title = models.TextField()
 	author = models.TextField()
 	lecture = models.TextField()
-	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='owningbooks')
+	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum')
 	option = models.TextField()
 	isAvailable = models.BooleanField()
 
 	def __str__(self):
 		return self.title
+
+class LectureBookRequest(models.Model):
+	lecturebook = models.ForeignKey('LectureBook', on_delete=models.CASCADE, to_field='id')
+	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum')
+	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum')
+	isAccepted = models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.lecturebook.id + ' : ' + self.owner.name + '(' + self.owner.sNum + ')' + ' -> ' + self.receiver.name + '(' + self.receiver.sNum + ')'

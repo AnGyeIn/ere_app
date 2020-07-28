@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Student, LectureBook
+from .models import Student, LectureBook, LectureBookRequest
 from .serializers import StudentSerializer, LectureBookSerializer
 
 # Create your views here.
@@ -51,3 +51,11 @@ class DeactivateLectureBook(APIView):
         lecturebook.isAvailable = False
         lecturebook.save()
         return Response(True)
+
+class RequestLectureBook(APIView):
+    def post(self, request, id, format=None):
+        lecturebook = LectureBook.objects.get(id=id)
+        owner = Student.objects.get(sNum=request.data['owner'])
+        receiver = Student.objects.get(sNum=request.data['receiver'])
+        lecturebookrequest = LectureBookRequest.objects.create(lecturebook=lecturebook, owner=owner, receiver=receiver)
+        return Response(lecturebookrequest)
