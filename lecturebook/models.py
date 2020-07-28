@@ -58,9 +58,9 @@ class LectureBook(models.Model):
 
 class LectureBookRequest(models.Model):
 	lecturebook = models.ForeignKey('LectureBook', on_delete=models.CASCADE, to_field='id')
-	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum')
-	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum')
+	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='owning')
+	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='receiving')
 	isAccepted = models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.lecturebook.id + ' : ' + self.owner.name + '(' + self.owner.sNum + ')' + ' -> ' + self.receiver.name + '(' + self.receiver.sNum + ')'
+		return '{0} : {1}({2}) -> {3}({4}'.format(self.lecturebook, self.owner.name, self.owner, self.receiver.name, self.receiver)
