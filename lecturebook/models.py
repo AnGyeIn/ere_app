@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 
 # Create your models here.
+from django.utils import timezone
+
+
 class StudentManager(BaseUserManager):
 	def create_user(self, sNum, name, pNum, password=None):
 		user = self.model(sNum=sNum, name=name, pNum=pNum)
@@ -60,7 +63,8 @@ class LectureBookRequest(models.Model):
 	lecturebook = models.ForeignKey('LectureBook', on_delete=models.CASCADE, to_field='id')
 	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='owning')
 	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='receiving')
+	requestTime = models.DateTimeField(default=timezone.now)
 	isAccepted = models.BooleanField(default=False)
 
 	def __str__(self):
-		return '{0} : {1}({2}) -> {3}({4}'.format(self.lecturebook, self.owner.name, self.owner, self.receiver.name, self.receiver)
+		return '{0} : {1}({2}) -> {3}({4})'.format(self.lecturebook, self.owner, self.owner.sNum, self.receiver, self.receiver.sNum)

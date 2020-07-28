@@ -2,7 +2,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Student, LectureBook, LectureBookRequest
-from .serializers import StudentSerializer, LectureBookSerializer
+from .serializers import StudentSerializer, LectureBookSerializer, LectureBookRequestSerializer
+
 
 # Create your views here.
 class StudentViewSet(APIView):
@@ -59,3 +60,10 @@ class RequestLectureBook(APIView):
         receiver = Student.objects.get(sNum=request.data['receiver'])
         lecturebookrequest = LectureBookRequest.objects.create(lecturebook=lecturebook, owner=owner, receiver=receiver)
         return Response(lecturebookrequest)
+
+class RequestList(APIView):
+    def post(self, request, format=None):
+        user = Student.objects.get(sNum=request.data['sNum'])
+        requests = user.owner.all().ordered_by('requestTime')
+        serializer = LectureBookRequestSerializer(requests, many=True)
+        return Response(serializer.data)
