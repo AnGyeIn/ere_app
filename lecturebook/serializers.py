@@ -9,4 +9,4 @@ class StudentSerializer(serializers.ModelSerializer):
 class LectureBookSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = LectureBook
-		fields = ('title', 'author', 'lecture', 'owner', 'option', 'isAvailable')
+		fields = ('id', 'title', 'author', 'lecture', 'owner', 'option', 'isAvailable')

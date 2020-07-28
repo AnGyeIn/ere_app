@@ -37,3 +37,17 @@ class Signup(APIView):
             password = request.data['password']
             Student.objects.create_user(sNum=sNum, name=name, pNum=pNum, password=password)
             return Response(sNum)
+
+class ActivateLectureBook(APIView):
+    def post(self, request, id, format=None):
+        lecturebook = LectureBook.objects.get(id=id)
+        lecturebook.isAvailable = True
+        lecturebook.save()
+        return Response(True)
+
+class DeactivateLectureBook(APIView):
+    def post(self, request, id, format=None):
+        lecturebook = LectureBook.objects.get(id=id)
+        lecturebook.isAvailable = False
+        lecturebook.save()
+        return Response(True)
