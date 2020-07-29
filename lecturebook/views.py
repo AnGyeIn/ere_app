@@ -101,7 +101,9 @@ class AcceptRequest(APIView):
         receiver = Student.objects.get(sNum=request.data['receiver'])
         lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
         lecturebookrequest.isAccepted = True
+        lecturebookrequest.save()
         lecturebook.isAvailable = False
+        lecturebook.save()
         return Response(True)
 
 class GetPhoneNum(APIView):
