@@ -61,11 +61,11 @@ class LectureBook(models.Model):
 
 class LectureBookRequest(models.Model):
 	lecturebook = models.ForeignKey('LectureBook', on_delete=models.CASCADE, to_field='id')
-	lecturebookTitle = models.TextField(lecturebook.title)
+	lecturebookTitle = models.TextField()
 	owner = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='owning')
-	ownerName = models.TextField(owner.name)
+	ownerName = models.TextField()
 	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='receiving')
-	receiverName = models.TextField(receiver.name)
+	receiverName = models.TextField()
 	requestTime = models.DateTimeField(default=timezone.now)
 	isAccepted = models.BooleanField(default=False)
 
