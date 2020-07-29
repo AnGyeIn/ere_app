@@ -84,3 +84,12 @@ class RequestListForReceiver(APIView):
         requests = user.receiving.all().order_by('requestTime')
         serializer = LectureBookRequestSerializer(requests, many=True)
         return Response(serializer.data)
+
+class CancelRequest(APIView):
+    def post(self, request, id, format=None):
+        lecturebook = LectureBook.objects.get(id=id)
+        owner = Student.objects.get(sNum=request.data['owner'])
+        receiver = Student.objects.get(sNum=request.data['receiver'])
+        lecturebookrequest = LectureBookRequest.objects.filter(lecturebook=lecturebook, owner=owner, receiver=receiver)
+        lecturebookrequest.delete()
+        return Response(True)
