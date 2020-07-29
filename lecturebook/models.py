@@ -66,6 +66,7 @@ class LectureBookRequest(models.Model):
 	ownerName = models.TextField()
 	receiver = models.ForeignKey('Student', on_delete=models.CASCADE, to_field='sNum', related_name='receiving')
 	receiverName = models.TextField()
+	option = models.TextField(default='temp')
 	requestTime = models.DateTimeField(default=timezone.now)
 	isAccepted = models.BooleanField(default=False)
 
