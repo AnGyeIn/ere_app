@@ -116,7 +116,7 @@ class AddLectureBook(APIView):
         title = request.data['title']
         author = request.data['author']
         lecture = request.data['lecture']
-        owner = request.data['owner']
+        owner = Student.objects.get(sNum=request.data['owner'])
         option = request.data['option']
         lecturebook = LectureBook.objects.create(
             title=title,
