@@ -90,6 +90,21 @@ class CancelRequest(APIView):
         lecturebook = LectureBook.objects.get(id=id)
         owner = Student.objects.get(sNum=request.data['owner'])
         receiver = Student.objects.get(sNum=request.data['receiver'])
-        lecturebookrequest = LectureBookRequest.objects.filter(lecturebook=lecturebook, owner=owner, receiver=receiver)
+        lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
         lecturebookrequest.delete()
         return Response(True)
+
+class AcceptRequest(APIView):
+    def post(self, request, id, format=None):
+        lecturebook = LectureBook.objects.get(id=id)
+        owner = Student.objects.get(sNum=request.data['owner'])
+        receiver = Student.objects.get(sNum=request.data['receiver'])
+        lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
+        lecturebookrequest.isAccepted = True
+        lecturebook.isAvailable = False
+        return Response(True)
+
+class GetPhoneNum(APIView):
+    def post(self, request, format=None):
+        owner = Student.objects.get(sNum=request.data['owner'])
+        return Response(owner.pNum)
