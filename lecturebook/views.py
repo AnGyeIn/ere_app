@@ -64,6 +64,6 @@ class RequestLectureBook(APIView):
 class RequestList(APIView):
     def post(self, request, format=None):
         user = Student.objects.get(sNum=request.data['sNum'])
-        requests = user.owner.all().ordered_by('requestTime')
+        requests = user.owning.all().ordered_by('requestTime')
         serializer = LectureBookRequestSerializer(requests, many=True)
         return Response(serializer.data)
