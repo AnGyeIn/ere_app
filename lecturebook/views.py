@@ -109,4 +109,4 @@ class AcceptRequest(APIView):
 class GetPhoneNum(APIView):
     def post(self, request, format=None):
         owner = Student.objects.get(sNum=request.data['owner'])
-        return Response(owner.pNum)
+        return Response(str(owner.pNum))
