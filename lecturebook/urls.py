@@ -13,4 +13,5 @@ urlpatterns = [
 	path("cancel_request/<int:id>/", views.CancelRequest.as_view()),
 	path("accept_request/<int:id>/", views.AcceptRequest.as_view()),
 	path("get_phone_num/", views.GetPhoneNum.as_view()),
+	path("add/", views.AddLectureBook.as_view()),
 ]

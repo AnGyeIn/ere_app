@@ -109,4 +109,21 @@ class AcceptRequest(APIView):
 class GetPhoneNum(APIView):
     def post(self, request, format=None):
         owner = Student.objects.get(sNum=request.data['owner'])
-        return Response(str(owner.pNum))
+        return Response(owner.pNum)
+
+class AddLectureBook(APIView):
+    def post(self, request, format=None):
+        title = request.data['title']
+        author = request.data['author']
+        lecture = request.data['lecture']
+        owner = request.data['owner']
+        option = request.data['option']
+        lecturebook = LectureBook.objects.create(
+            title=title,
+            author=author,
+            lecture=lecture,
+            owner=owner,
+            option=option,
+            isAvailable=True
+        )
+        return Response(lecturebook)
