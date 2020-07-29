@@ -10,4 +10,5 @@ urlpatterns = [
 	path("request_lecturebook/<int:id>/", views.RequestLectureBook.as_view()),
 	path("request_list_for_owner/", views.RequestListForOwner.as_view()),
 	path("request_list_for_receiver/", views.RequestListForReceiver.as_view()),
+	path("cancel_request/<int:id>/", views.CancelRequest.as_view()),
 ]
