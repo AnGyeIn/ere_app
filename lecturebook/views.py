@@ -58,12 +58,22 @@ class RequestLectureBook(APIView):
         lecturebook = LectureBook.objects.get(id=id)
         owner = Student.objects.get(sNum=request.data['owner'])
         receiver = Student.objects.get(sNum=request.data['receiver'])
-        lecturebookrequest = LectureBookRequest.objects.create(lecturebook=lecturebook, owner=owner, receiver=receiver)
-        return Response(lecturebookrequest)
+        if LectureBookRequest.objects.filter(lecturebook=lecturebook, owner=owner, receiver=receiver).count() > 0:
+            return Response(-1)
+        else:
+            lecturebookrequest = LectureBookRequest.objects.create(lecturebook=lecturebook, owner=owner, receiver=receiver)
+            return Response(lecturebookrequest)
 
-class RequestList(APIView):
+class RequestListForOwner(APIView):
     def post(self, request, format=None):
         user = Student.objects.get(sNum=request.data['sNum'])
         requests = user.owning.all().order_by('requestTime')
+        serializer = LectureBookRequestSerializer(requests, many=True)
+        return Response(serializer.data)
+
+class RequestListForReceiver(APIView):
+    def post(self, request, format=None):
+        user = Student.objects.get(sNum=request.data['sNum'])
+        requests = user.receiving.all().order_by('requestTime')
         serializer = LectureBookRequestSerializer(requests, many=True)
         return Response(serializer.data)

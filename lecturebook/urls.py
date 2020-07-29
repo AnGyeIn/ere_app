@@ -8,5 +8,6 @@ urlpatterns = [
 	path("activate/<int:id>/", views.ActivateLectureBook.as_view()),
 	path("deactivate/<int:id>/", views.DeactivateLectureBook.as_view()),
 	path("request_lecturebook/<int:id>/", views.RequestLectureBook.as_view()),
-	path("request_list/", views.RequestList.as_view()),
+	path("request_list_for_owner/", views.RequestListForOwner.as_view()),
+	path("request_list_for_receiver/", views.RequestListForReceiver.as_view()),
 ]

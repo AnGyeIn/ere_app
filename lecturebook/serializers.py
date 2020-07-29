@@ -15,4 +15,4 @@ class LectureBookSerializer(serializers.ModelSerializer):
 class LectureBookRequestSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = LectureBookRequest
-		fields = ('lecturebook', 'owner', 'receiver', 'isAccepted')
+		fields = ('lecturebook', 'owner', 'receiver', 'requestTime', 'isAccepted')
