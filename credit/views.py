@@ -27,5 +27,5 @@ class SaveCreditData(APIView):
             creditData.save()
             return Response(True)
         except ObjectDoesNotExist:
-            creditData = CreditData.objects.create(data=data)
+            creditData = CreditData.objects.create(user=user, data=data)
             return Response(CreditDataSerializer(creditData).data)
