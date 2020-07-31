@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from credit.models import CreditData
-from credit.serializers import CreditDataSerializer
 from lecturebook.models import Student
 
 # Create your views here.
@@ -12,8 +11,7 @@ class LoadCreditData(APIView):
         user = Student.objects.get(sNum=request.data['sNum'])
         try:
             creditData = CreditData.objects.get(user=user)
-            serializer = CreditDataSerializer(creditData)
-            return Response(serializer.data)
+            return Response(creditData.data)
         except ObjectDoesNotExist:
             return Response(-1)
 
@@ -28,4 +26,4 @@ class SaveCreditData(APIView):
             return Response(True)
         except ObjectDoesNotExist:
             creditData = CreditData.objects.create(user=user, data=data)
-            return Response(CreditDataSerializer(creditData).data)
+            return Response(creditData.data)
