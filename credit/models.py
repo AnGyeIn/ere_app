@@ -4,5 +4,6 @@ from django.db import models
 class CreditData(models.Model):
     user = models.ForeignKey('lecturebook.Student', on_delete=models.CASCADE, to_field='sNum', related_name='creditData')
 
-    def __init__(self, data):
+    def __init__(self, data, user):
         self.data = data
+        self.user = user
