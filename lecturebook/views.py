@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -56,6 +58,12 @@ class DeactivateLectureBook(APIView):
 
 class RequestLectureBook(APIView):
     def post(self, request, id, format=None):
+        now = datetime.now()
+        opentime = datetime(2020, 9, 1, 18, 0, 0)  # todo: change to opening time
+
+        if (request.data['owner'] == '0000-00001') and (now < opentime):   #todo: change to sNum of student council
+            return Response(-2)
+
         lecturebook = LectureBook.objects.get(id=id)
         owner = Student.objects.get(sNum=request.data['owner'])
         receiver = Student.objects.get(sNum=request.data['receiver'])
