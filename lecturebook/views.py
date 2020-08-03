@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -99,12 +100,15 @@ class AcceptRequest(APIView):
         lecturebook = LectureBook.objects.get(id=id)
         owner = Student.objects.get(sNum=request.data['owner'])
         receiver = Student.objects.get(sNum=request.data['receiver'])
-        lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
-        lecturebookrequest.isAccepted = True
-        lecturebookrequest.save()
-        lecturebook.isAvailable = False
-        lecturebook.save()
-        return Response(True)
+        try:
+            lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
+            lecturebookrequest.isAccepted = True
+            lecturebookrequest.save()
+            lecturebook.isAvailable = False
+            lecturebook.save()
+            return Response(True)
+        except ObjectDoesNotExist:
+            return Response(False)
 
 class GetPhoneNum(APIView):
     def post(self, request, format=None):
