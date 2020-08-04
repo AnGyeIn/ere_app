@@ -70,7 +70,7 @@ class RequestLectureBook(APIView):
         if LectureBookRequest.objects.filter(lecturebook=lecturebook, owner=owner, receiver=receiver).count() > 0:
             return Response(-1)
         else:
-            lecturebookrequest = LectureBookRequest.objects.create(
+            LectureBookRequest.objects.create(
                 lecturebook=lecturebook,
                 lecturebookTitle=lecturebook.title,
                 owner=owner, ownerName=owner.name,
@@ -131,7 +131,7 @@ class AddLectureBook(APIView):
         lecture = request.data['lecture']
         owner = Student.objects.get(sNum=request.data['owner'])
         option = request.data['option']
-        lecturebook = LectureBook.objects.create(
+        LectureBook.objects.create(
             id=id,
             title=title,
             author=author,
