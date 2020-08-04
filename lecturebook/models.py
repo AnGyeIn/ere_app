@@ -31,7 +31,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
 	)
 
 	name = models.TextField()
-	sNum = models.TextField(unique=True)
+	sNum = models.TextField(unique=True, max_length=10)
 	pNum = models.TextField()
 
 	is_active = models.BooleanField(default=True)
