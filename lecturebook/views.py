@@ -40,21 +40,21 @@ class Signup(APIView):
             pNum = request.data['pNum']
             password = request.data['password']
             Student.objects.create_user(sNum=sNum, name=name, pNum=pNum, password=password)
-            return Response(sNum)
+            return Response('Signed up.')
 
 class ActivateLectureBook(APIView):
     def post(self, request, id, format=None):
         lecturebook = LectureBook.objects.get(id=id)
         lecturebook.isAvailable = True
         lecturebook.save()
-        return Response(True)
+        return Response('Activated the LectureBook.')
 
 class DeactivateLectureBook(APIView):
     def post(self, request, id, format=None):
         lecturebook = LectureBook.objects.get(id=id)
         lecturebook.isAvailable = False
         lecturebook.save()
-        return Response(True)
+        return Response('Deactivated the LectureBook.')
 
 class RequestLectureBook(APIView):
     def post(self, request, id, format=None):
@@ -78,7 +78,7 @@ class RequestLectureBook(APIView):
                 option=lecturebook.option,
                 receiverName=receiver.name
             )
-            return Response(lecturebookrequest)
+            return Response('Requested the LectureBook.')
 
 class RequestListForOwner(APIView):
     def post(self, request, format=None):
@@ -101,7 +101,7 @@ class CancelRequest(APIView):
         receiver = Student.objects.get(sNum=request.data['receiver'])
         lecturebookrequest = LectureBookRequest.objects.get(lecturebook=lecturebook, owner=owner, receiver=receiver)
         lecturebookrequest.delete()
-        return Response(True)
+        return Response('Canceled the LectureBookRequest.')
 
 class AcceptRequest(APIView):
     def post(self, request, id, format=None):
@@ -132,7 +132,7 @@ class AddLectureBook(APIView):
         owner = Student.objects.get(sNum=request.data['owner'])
         option = request.data['option']
         lecturebook = LectureBook.objects.create(
-            id = id,
+            id=id,
             title=title,
             author=author,
             lecture=lecture,
@@ -140,4 +140,4 @@ class AddLectureBook(APIView):
             option=option,
             isAvailable=True
         )
-        return Response(lecturebook)
+        return Response('Added the LectureBook.')
