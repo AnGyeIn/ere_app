@@ -34,13 +34,13 @@ class Signup(APIView):
     def post(self, request, format=None):
         if Student.objects.filter(sNum=request.data['sNum']).count() > 0:
             return Response(-1)
-        else:
-            sNum = request.data['sNum']
-            name = request.data['name']
-            pNum = request.data['pNum']
-            password = request.data['password']
-            Student.objects.create_user(sNum=sNum, name=name, pNum=pNum, password=password)
-            return Response('Signed up.')
+
+        sNum = request.data['sNum']
+        name = request.data['name']
+        pNum = request.data['pNum']
+        password = request.data['password']
+        Student.objects.create_user(sNum=sNum, name=name, pNum=pNum, password=password)
+        return Response('Signed up.')
 
 class ActivateLectureBook(APIView):
     def post(self, request, id, format=None):
@@ -65,20 +65,23 @@ class RequestLectureBook(APIView):
             return Response(-2)
 
         lecturebook = LectureBook.objects.get(id=id)
+        if not lecturebook.isAvailable:
+            return Response(-3)
+
         owner = Student.objects.get(sNum=request.data['owner'])
         receiver = Student.objects.get(sNum=request.data['receiver'])
         if LectureBookRequest.objects.filter(lecturebook=lecturebook, owner=owner, receiver=receiver).count() > 0:
             return Response(-1)
-        else:
-            LectureBookRequest.objects.create(
-                lecturebook=lecturebook,
-                lecturebookTitle=lecturebook.title,
-                owner=owner, ownerName=owner.name,
-                receiver=receiver,
-                option=lecturebook.option,
-                receiverName=receiver.name
-            )
-            return Response('Requested the LectureBook.')
+
+        LectureBookRequest.objects.create(
+            lecturebook=lecturebook,
+            lecturebookTitle=lecturebook.title,
+            owner=owner, ownerName=owner.name,
+            receiver=receiver,
+            option=lecturebook.option,
+            receiverName=receiver.name
+        )
+        return Response('Requested the LectureBook.')
 
 class RequestListForOwner(APIView):
     def post(self, request, format=None):
